@@ -1,0 +1,8 @@
+---
+collections:
+  - name: pokerops.crowdstrike
+    source: .
+    type: dir
+  - name: nephelaiio.plugins
+  - name: nephelaiio.libvirt
+  - name: crowdstrike.falcon

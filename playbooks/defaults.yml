@@ -1,0 +1,36 @@
+---
+- name: Set resolver defaults
+  hosts: "{{ resolver_group | default('all') }}"
+  gather_facts: false
+  tasks:
+    - name: Ensure resolver nameservers are defined
+      ansible.builtin.fail:
+        msg: parameter resolver_nameservers is required
+      when: resolver_nameservers is not defined
+
+    - name: Set resolver nameserver defaults
+      ansible.builtin.set_fact:
+        _resolver_nameservers: "{{ [resolver_nameservers] | flatten }}"
+
+    - name: Verify resolver nameservers
+      ansible.builtin.assert:
+        that:
+          - _resolver_nameservers | length > 0
+          - _resolver_nameservers | length < 10
+        fail_msg: "at least one and no more than 9 nameservers must be defined"
+
+    - name: Set resolver search defaults
+      ansible.builtin.set_fact:
+        _resolver_search: "{{ [resolver_search | default([])] | flatten }}"
+
+    - name: Set unsupported configuration defaults
+      ansible.builtin.set_fact:
+        _resolver_unsupported_ignore: "{{ resolver_unsupported_ignore | default(False) | bool }}"
+
+    - name: Set netplan package name default
+      ansible.builtin.set_fact:
+        resolver_netplan_package: "{{ resolver_netplan_package | default('netplan.io') }}"
+
+    - name: Set resolved daemon name default
+      ansible.builtin.set_fact:
+        resolver_resolved_daemon: "{{ resolver_resolved_daemon | default('systemd-resolved.service') }}"

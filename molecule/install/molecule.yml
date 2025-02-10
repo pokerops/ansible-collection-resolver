@@ -1,0 +1,51 @@
+---
+dependency:
+  name: galaxy
+  options:
+    role-file: requirements.yml
+    requirements-file: requirements.yml
+driver:
+  name: default
+platforms:
+  - name: jammy
+    image: https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img
+  - name: noble
+    image: https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img
+  - name: bookworm
+    image: https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-generic-amd64.qcow2
+  - name: alma9
+    image: https://repo.almalinux.org/almalinux/9/cloud/x86_64/images/AlmaLinux-9-GenericCloud-latest.x86_64.qcow2
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      remote_tmp: /tmp
+      allow_world_readable_tmpfiles: true
+      callbacks_enabled: ansible.posix.profile_tasks
+  playbooks:
+    create: ../common/create.yml
+    prepare: ../common/prepare.yml
+    converge: ../common/converge.yml
+    verify: ../common/verify.yml
+    destroy: ../common/destroy.yml
+  inventory:
+    group_vars:
+      all:
+        libvirt_platforms: "{{ molecule_yml.platforms }}"
+        libvirt_resolvers:
+          - 1.1.1.1
+          - 8.8.8.8
+        resolver_nameservers:
+          - 9.9.9.9
+          - 94.140.14.14
+verifier:
+  name: ansible
+scenario:
+  prepare_sequence:
+    - prepare
+  converge_sequence:
+    - converge
+  destroy_sequence:
+    - destroy
+  cleanup_sequence:
+    - cleanup

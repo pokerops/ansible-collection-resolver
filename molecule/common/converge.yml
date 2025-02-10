@@ -1,0 +1,9 @@
+---
+- name: Verify original resolver configuration
+  ansible.builtin.import_playbook: ./verify.yml
+  vars:
+    verification_resolvers: "{{ libvirt_resolvers }}"
+    verification_reboot: false
+
+- name: Import resolver configuration playbook
+  ansible.builtin.import_playbook: pokerops.resolver.configure

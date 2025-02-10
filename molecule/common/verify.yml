@@ -1,0 +1,62 @@
+---
+- name: Load collection defaults
+  ansible.builtin.import_playbook: pokerops.resolver.defaults
+
+- name: Verify resolver configuration
+  hosts: all
+  tasks:
+    - name: Install required verification libraries
+      ansible.builtin.package:
+        name: bind-utils
+      when: ansible_os_family == 'RedHat'
+      become: true
+
+    - name: Gather service facts
+      ansible.builtin.service_facts:
+
+    - name: Set resolver facts
+      ansible.builtin.set_fact:
+        _resolver_config: "{{ _resolver_config_systemd_resolved if _is_resolved else '/etc' }}/resolv.conf"
+      vars:
+        _is_resolved: "{{ resolver_resolved_daemon in ansible_facts.services }}"
+        _resolver_config_systemd_resolved: /var/run/systemd/resolve
+
+    - name: Slurp resolver configuration
+      ansible.builtin.slurp:
+        src: "{{ _resolver_config }}"
+      register: resolver_config
+
+    - name: Debug resolver configuration
+      ansible.builtin.debug:
+        msg: "{{ resolver_config.content | b64decode }}"
+
+    - name: Verify resolver configuration
+      ansible.builtin.assert:
+        that: resolver_config.content | b64decode | regex_search("nameserver {{ item }}")
+      loop: "{{ verification_resolvers | default(resolver_nameservers) }}"
+
+    - name: Verify host resolution
+      ansible.builtin.command:
+        cmd: host google.com
+      changed_when: false
+
+    - name: Verify configuration persistence
+      when: verification_reboot | default(True) | bool
+      block:
+        - name: Reboot host
+          ansible.builtin.reboot:
+          become: true
+
+        - name: Wait for host to reboot
+          ansible.builtin.wait_for_connection:
+            timeout: 300
+
+        - name: Verify resolver configuration
+          ansible.builtin.assert:
+            that: resolver_config.content | b64decode | regex_search("nameserver {{ item }}")
+          loop: "{{ verification_resolvers | default(resolver_nameservers) }}"
+
+        - name: Verify host resolution
+          ansible.builtin.command:
+            cmd: host google.com
+          changed_when: false

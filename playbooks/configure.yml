@@ -1,0 +1,161 @@
+---
+- name: Load collection defaults
+  ansible.builtin.import_playbook: pokerops.resolver.defaults
+
+- name: Manage Linux resolvers
+  hosts: "{{ resolver_group | default('all') }}"
+  become: true
+  tasks:
+    - name: Gather service facts
+      ansible.builtin.service_facts:
+
+    - name: Gather package facts
+      ansible.builtin.package_facts:
+
+    - name: Set host facts
+      ansible.builtin.set_fact:
+        _host_is_netplan: "{{ resolver_netplan_package in ansible_facts.packages }}"
+        _host_is_redhat: "{{ ansible_os_family == 'RedHat' }}"
+
+    - name: Manage resolver configuration for Netplan hosts
+      when: _host_is_netplan
+      block:
+        - name: Detect netplan configuration files
+          ansible.builtin.find:
+            paths: /etc/netplan
+            patterns:
+              - "*.yml"
+              - "*.yaml"
+          register: netplan_files
+
+        - name: Slurp netplan configuration
+          ansible.builtin.slurp:
+            src: "{{ item.path }}"
+          loop_control:
+            label: "{{ item.path }}"
+          loop: "{{ netplan_files.files }}"
+          register: netplan_slurp
+
+        - name: Decode netplan configuration
+          ansible.builtin.set_fact:
+            netplan_config: "{{ netplan_slurp.results | zip(netplan_content) | map('combine') }}"
+          vars:
+            _map: nephelaiio.plugins.to_dict
+            netplan_decode: "{{ netplan_slurp.results | map(attribute='content') | map('b64decode') }}"
+            netplan_content: "{{ netplan_decode | map(_map, 'content') }}"
+
+        - name: Validate netplan configuration
+          ansible.builtin.assert:
+            that: _nsaddrs | int < 2
+            msg: "Netplan configuration is valid configuration target"
+            fail_msg: "Redundant nameserver configuration ({{ _nsaddrs }}) detected in netplan configuration"
+          vars:
+            _config: "{{ netplan_config | selectattr('source', 'match', item) | first }}"
+            _input: "{{ _config.content | from_yaml }}"
+            _nsaddrs: "{{ _input.network.ethernets.values() | selectattr('nameservers.addresses', 'defined') | length }}"
+          loop: "{{ netplan_config | map(attribute='source') }}"
+
+        - name: Edit netplan nameserver configuration
+          ansible.builtin.copy:
+            dest: "{{ item }}"
+            content: "{{ _output | to_nice_yaml(indent=2) }}"
+            owner: "{{ _config.item.uid }}"
+            group: "{{ _config.item.gid }}"
+            mode: "{{ _config.item.mode }}"
+          vars:
+            _config: "{{ netplan_config | selectattr('source', 'match', item) | first }}"
+            _input: "{{ _config.content | from_yaml }}"
+            _search: "{{ (_resolver_search | nephelaiio.plugins.to_dict(key='search')) if _resolver_search != [] else {} }}"
+            _addresses: "{{ _resolver_nameservers | nephelaiio.plugins.to_dict(key='addresses') }}"
+            _nss: "{{ _addresses | combine(_search) }}"
+            _nameservers: "{{ _nss | nephelaiio.plugins.to_dict(key='nameservers') }}"
+            _iface: "{{ _nameservers | nephelaiio.plugins.to_dict(key=ansible_default_ipv4.interface) }}"
+            _ethernets: "{{ _iface | nephelaiio.plugins.to_dict(key='ethernets') }}"
+            _override: "{{ _ethernets | nephelaiio.plugins.to_dict(key='network') }}"
+            _output: "{{ _input | combine(_override, recursive=True) }}"
+          when:
+            - _input.network.ethernets[ansible_default_ipv4.interface].nameservers.addresses | default([]) != []
+            - _input.network.ethernets.values() | selectattr('nameservers.addresses', 'defined') | length == 1
+          loop: "{{ netplan_config | map(attribute='source') }}"
+
+        - name: Apply netplan configuration
+          ansible.builtin.command:
+            cmd: netplan apply
+          changed_when: false
+
+        - name: End play for netplan hosts
+          ansible.builtin.meta: end_host
+
+    - name: Manage resolver configuration for RedHat hosts
+      when: _host_is_redhat
+      block:
+        - name: Detect sysconfig network-scripts
+          ansible.builtin.find:
+            paths: /etc/sysconfig/network-scripts
+            patterns:
+              - "ifcfg-*"
+          register: sysconfig_files
+
+        - name: Slurp sysconfig configuration
+          ansible.builtin.slurp:
+            src: "{{ item.path }}"
+          loop_control:
+            label: "{{ item.path }}"
+          loop: "{{ sysconfig_files.files }}"
+          register: sysconfig_slurp
+
+        - name: Decode sysconfig configuration
+          ansible.builtin.set_fact:
+            sysconfig_config: "{{ sysconfig_data | selectattr('content', 'search', 'DNS[0-9]=') }}"
+          vars:
+            _map: nephelaiio.plugins.to_dict
+            sysconfig_decode: "{{ sysconfig_slurp.results | map(attribute='content') | map('b64decode') }}"
+            sysconfig_content: "{{ sysconfig_decode | map(_map, 'content') }}"
+            sysconfig_data: "{{ sysconfig_slurp.results | zip(sysconfig_content) | map('combine') }}"
+
+        - name: Prune stale DNS settings
+          ansible.builtin.lineinfile:
+            dest: "{{ item }}"
+            regexp: "^DNS[0{{ range(_resolver_nameservers | length + 1, 10) | join('') }}]="
+            state: absent
+            mode:
+          loop: "{{ sysconfig_config | map(attribute='source') }}"
+
+        - name: Edit sysconfig nameserver configuration
+          ansible.builtin.lineinfile:
+            dest: "{{ item.0 }}"
+            regexp: "^DNS{{ _index }}="
+            line: "DNS{{ _index }}={{ item.1 }}"
+          vars:
+            _index: "{{ index | int + 1 }}"
+          loop_control:
+            index_var: index
+          loop: "{{ sysconfig_config | map(attribute='source') | product(_resolver_nameservers) }}"
+
+        - name: Edit sysconfig search configuration
+          ansible.builtin.lineinfile:
+            dest: "{{ item }}"
+            regexp: "^SEARCH="
+            line: "SEARCH={{ _resolver_search | join(' ') }}"
+          loop: "{{ sysconfig_config | map(attribute='source') }}"
+          when: _resolver_search != []
+
+        - name: Edit resolv.conf
+          ansible.builtin.copy:
+            dest: /etc/resolv.conf
+            content: |
+              {% for item in _resolver_nameservers %}
+              nameserver {{ item }}
+              {% endfor %}
+
+              {% if _resolver_search != [] %}
+              search {{ _resolver_search | join(' ') }}
+              {% endif %}
+
+        - name: End play for RedHat hosts
+          ansible.builtin.meta: end_host
+
+    - name: Fail for unsupported hosts
+      ansible.builtin.fail:
+        msg: "Unsupported host network configuration, must be Netplan or RedHat"
+      when: not _resolver_unsupported_ignore

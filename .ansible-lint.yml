@@ -1,0 +1,5 @@
+---
+warn_list:
+  - run-once
+  - unsupported-version
+  - command-instead-of-shell

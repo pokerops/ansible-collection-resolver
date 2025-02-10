@@ -1,0 +1,20 @@
+---
+namespace: pokerops
+name: resolver
+version: 0.0.0
+readme: README.md
+authors:
+  - Ted Cook <teodorocook@gmail.com>
+description: This collection provides a standard way for managing dns configuration across multiple platforms
+license:
+  - MIT
+tags:
+  - reolver
+  - dns
+dependencies:
+  "nephelaiio.plugins": "*"
+repository: http://github.com/pokerops/ansible-collection-resolver
+documentation: http://github.com/pokerops/ansible-collection-resolver
+homepage: http://github.com/pokerops/ansible-collection-resolver
+issues: http://github.com/pokerops/ansible-collection-resolver/issues
+build_ignore: []
