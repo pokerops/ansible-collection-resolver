@@ -74,5 +74,5 @@ publish: build
 version:
 	@poetry run molecule --version
 
-debug: version
+debug: install version
 	@poetry export --dev --without-hashes || exit 0
