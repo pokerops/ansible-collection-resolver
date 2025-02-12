@@ -23,9 +23,6 @@ test: lint
 	poetry run molecule $@ -s ${MOLECULE_SCENARIO}
 
 install:
-	@poetry self add poetry-plugin-export
-	@sudo ${PKGMAN} install -y xfsprogs gpg
-	@sudo ${PKGMAN} install -y $$(if [[ "${HOST_DISTRO}" == "fedora" ]]; then echo libvirt-devel; else echo libvirt-dev; fi)
 	@poetry install --no-root
 
 lint: install
