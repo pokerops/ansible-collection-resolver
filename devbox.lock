@@ -157,6 +157,54 @@
         }
       }
     },
+    "gnupg@latest": {
+      "last_modified": "2025-01-19T08:16:51Z",
+      "resolved": "github:NixOS/nixpkgs/50165c4f7eb48ce82bd063e1fb8047a0f515f8ce#gnupg",
+      "source": "devbox-search",
+      "version": "2.4.7",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/gaikwr7wn2vf3fwr81iixf4nlj09j46r-gnupg-2.4.7",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/gaikwr7wn2vf3fwr81iixf4nlj09j46r-gnupg-2.4.7"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/455gdy21gjrm1v5w83rfl9qv0bqvkqhd-gnupg-2.4.7",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/455gdy21gjrm1v5w83rfl9qv0bqvkqhd-gnupg-2.4.7"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/0hjc5nlll228q67rkan6v6jb070mqri6-gnupg-2.4.7",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/0hjc5nlll228q67rkan6v6jb070mqri6-gnupg-2.4.7"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/5h2h4zjaka0d7y3b94k5h5ax5fkwwnm9-gnupg-2.4.7",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/5h2h4zjaka0d7y3b94k5h5ax5fkwwnm9-gnupg-2.4.7"
+        }
+      }
+    },
     "libvirt@latest": {
       "last_modified": "2025-01-31T04:26:24Z",
       "resolved": "github:NixOS/nixpkgs/9189ac18287c599860e878e905da550aa6dec1cd#libvirt",
@@ -268,9 +316,9 @@
       }
     },
     "poetry@latest": {
-      "last_modified": "2025-02-04T21:04:56Z",
+      "last_modified": "2025-02-08T12:54:32Z",
       "plugin_version": "0.0.4",
-      "resolved": "github:NixOS/nixpkgs/f7384aacd0ecd28681a99269ac0dff2c3a805d63#poetry",
+      "resolved": "github:NixOS/nixpkgs/fa35a3c8e17a3de613240fea68f876e5b4896aec#poetry",
       "source": "devbox-search",
       "version": "2.0.1",
       "systems": {
@@ -278,114 +326,294 @@
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/c42p6z5lkikf0mgn0k86dhc1f0276j2f-python3.12-poetry-2.0.1",
+              "path": "/nix/store/0b292g1asif9iz56wrn6k2jd75ircy95-python3.12-poetry-2.0.1",
               "default": true
             },
             {
               "name": "dist",
-              "path": "/nix/store/9yrima9vscszkj160zqff1s48cp47s37-python3.12-poetry-2.0.1-dist"
+              "path": "/nix/store/fz9d1k81mnqlx6gxha9fv62ggzni2k8i-python3.12-poetry-2.0.1-dist"
             }
           ],
-          "store_path": "/nix/store/c42p6z5lkikf0mgn0k86dhc1f0276j2f-python3.12-poetry-2.0.1"
+          "store_path": "/nix/store/0b292g1asif9iz56wrn6k2jd75ircy95-python3.12-poetry-2.0.1"
         },
         "aarch64-linux": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/1njxsaqpwi88wzibp7vgar5g0y39765c-python3.12-poetry-2.0.1",
+              "path": "/nix/store/7ilsz2mvp9ghb2xnf57fdc3ql65im3j5-python3.12-poetry-2.0.1",
               "default": true
             },
             {
               "name": "dist",
-              "path": "/nix/store/nc60v9dpvjrkb38m386z8rj0717kzj1h-python3.12-poetry-2.0.1-dist"
+              "path": "/nix/store/6y4sjf3i7jir9z6p5fkhbhq5l3hr41cw-python3.12-poetry-2.0.1-dist"
             }
           ],
-          "store_path": "/nix/store/1njxsaqpwi88wzibp7vgar5g0y39765c-python3.12-poetry-2.0.1"
+          "store_path": "/nix/store/7ilsz2mvp9ghb2xnf57fdc3ql65im3j5-python3.12-poetry-2.0.1"
         },
         "x86_64-darwin": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/82wfq9nv5fqyplwxf4qqkapqpjfz3pp4-python3.12-poetry-2.0.1",
+              "path": "/nix/store/wiwgx67ga5y48h1dmij64lrcf0vwyjp2-python3.12-poetry-2.0.1",
               "default": true
             },
             {
               "name": "dist",
-              "path": "/nix/store/dc4nzq3a8szx2y3jc6hrwfgcmj7mvbbf-python3.12-poetry-2.0.1-dist"
+              "path": "/nix/store/dfmm9diwkl9qbrzf9rvvm6s5ljh99hvy-python3.12-poetry-2.0.1-dist"
             }
           ],
-          "store_path": "/nix/store/82wfq9nv5fqyplwxf4qqkapqpjfz3pp4-python3.12-poetry-2.0.1"
+          "store_path": "/nix/store/wiwgx67ga5y48h1dmij64lrcf0vwyjp2-python3.12-poetry-2.0.1"
         },
         "x86_64-linux": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/hhb8hs8jliwmw1ixrdnpsy78m8wn5r4f-python3.12-poetry-2.0.1",
+              "path": "/nix/store/qnjbhaa8y908a7csia30y654bbf1hgaf-python3.12-poetry-2.0.1",
               "default": true
             },
             {
               "name": "dist",
-              "path": "/nix/store/z80w7x9x3zijyaf8k7ari6gp8l4rph13-python3.12-poetry-2.0.1-dist"
+              "path": "/nix/store/yr7a2npqm9n5wqjh6p6nz3p9hvyjz19s-python3.12-poetry-2.0.1-dist"
             }
           ],
-          "store_path": "/nix/store/hhb8hs8jliwmw1ixrdnpsy78m8wn5r4f-python3.12-poetry-2.0.1"
+          "store_path": "/nix/store/qnjbhaa8y908a7csia30y654bbf1hgaf-python3.12-poetry-2.0.1"
         }
       }
     },
-    "python@latest": {
-      "last_modified": "2025-01-19T08:16:51Z",
-      "plugin_version": "0.0.4",
-      "resolved": "github:NixOS/nixpkgs/50165c4f7eb48ce82bd063e1fb8047a0f515f8ce#python313",
+    "poetryPlugins.poetry-plugin-export@latest": {
+      "last_modified": "2025-02-08T12:54:32Z",
+      "resolved": "github:NixOS/nixpkgs/fa35a3c8e17a3de613240fea68f876e5b4896aec#poetryPlugins.poetry-plugin-export",
       "source": "devbox-search",
-      "version": "3.13.1",
+      "version": "1.9.0",
       "systems": {
         "aarch64-darwin": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/klq7f8aricx6ky3c8acys5v3rd3ryivh-python3-3.13.1",
+              "path": "/nix/store/i30cj3ncb6qlpsgj24ppbhnd121xrmlw-python3.12-poetry-plugin-export-1.9.0",
               "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/9yqakk65fsmh2v93xxhm7rp28yjjdmgh-python3.12-poetry-plugin-export-1.9.0-dist"
             }
           ],
-          "store_path": "/nix/store/klq7f8aricx6ky3c8acys5v3rd3ryivh-python3-3.13.1"
+          "store_path": "/nix/store/i30cj3ncb6qlpsgj24ppbhnd121xrmlw-python3.12-poetry-plugin-export-1.9.0"
         },
         "aarch64-linux": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/g7c62ybmsjnz5zlpv34c0rxidlchxf6l-python3-3.13.1",
+              "path": "/nix/store/skklc28lz0kn4r6rj7v88damm00q1abm-python3.12-poetry-plugin-export-1.9.0",
               "default": true
             },
             {
-              "name": "debug",
-              "path": "/nix/store/dsa9ha60y96czlrgl2sa94qd1l9qvniz-python3-3.13.1-debug"
+              "name": "dist",
+              "path": "/nix/store/7nxwzvlgrjs4shbpv8b33gdnjzbplhzp-python3.12-poetry-plugin-export-1.9.0-dist"
             }
           ],
-          "store_path": "/nix/store/g7c62ybmsjnz5zlpv34c0rxidlchxf6l-python3-3.13.1"
+          "store_path": "/nix/store/skklc28lz0kn4r6rj7v88damm00q1abm-python3.12-poetry-plugin-export-1.9.0"
         },
         "x86_64-darwin": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/pzzc4xz3714dwrcp5hry7f03kiv08cbp-python3-3.13.1",
+              "path": "/nix/store/0jdhwhvii4bg3m55zarszby3vciqlqal-python3.12-poetry-plugin-export-1.9.0",
               "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/jvmgvcwmmg6wfn41frp2a8wy0j2aqgfs-python3.12-poetry-plugin-export-1.9.0-dist"
             }
           ],
-          "store_path": "/nix/store/pzzc4xz3714dwrcp5hry7f03kiv08cbp-python3-3.13.1"
+          "store_path": "/nix/store/0jdhwhvii4bg3m55zarszby3vciqlqal-python3.12-poetry-plugin-export-1.9.0"
         },
         "x86_64-linux": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/29a6wlyr860xg3i9n3pzavrlggmyxzkr-python3-3.13.1",
+              "path": "/nix/store/hi78nd9was1gznygrnp23x80dyw1y1ah-python3.12-poetry-plugin-export-1.9.0",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/qzfmvms74lzqssg88vd32zzksjzh731h-python3.12-poetry-plugin-export-1.9.0-dist"
+            }
+          ],
+          "store_path": "/nix/store/hi78nd9was1gznygrnp23x80dyw1y1ah-python3.12-poetry-plugin-export-1.9.0"
+        }
+      }
+    },
+    "python@3.11.11": {
+      "last_modified": "2025-01-19T08:16:51Z",
+      "plugin_version": "0.0.4",
+      "resolved": "github:NixOS/nixpkgs/50165c4f7eb48ce82bd063e1fb8047a0f515f8ce#python311",
+      "source": "devbox-search",
+      "version": "3.11.11",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/s3pq6y9qhdqc9mab8yir2mr16xr7rx5p-python3-3.11.11",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/s3pq6y9qhdqc9mab8yir2mr16xr7rx5p-python3-3.11.11"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/i7svvkm9ndrh1kwr4xhkh0df1d78fcjs-python3-3.11.11",
               "default": true
             },
             {
               "name": "debug",
-              "path": "/nix/store/3ns7yf43xrkpbn4pxda8nlp0ddvnxyiw-python3-3.13.1-debug"
+              "path": "/nix/store/gwicdi09hhln3vg650zkgm9c0maci7l1-python3-3.11.11-debug"
             }
           ],
-          "store_path": "/nix/store/29a6wlyr860xg3i9n3pzavrlggmyxzkr-python3-3.13.1"
+          "store_path": "/nix/store/i7svvkm9ndrh1kwr4xhkh0df1d78fcjs-python3-3.11.11"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/r2lldrdrchb6vfz1qbr09qxn2hqm6l5f-python3-3.11.11",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/r2lldrdrchb6vfz1qbr09qxn2hqm6l5f-python3-3.11.11"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/3i8fa331nr390ylkf1xka5ah0hvbvfbs-python3-3.11.11",
+              "default": true
+            },
+            {
+              "name": "debug",
+              "path": "/nix/store/g6p2lmraliym2qshq5pvqmnlsnirwzhm-python3-3.11.11-debug"
+            }
+          ],
+          "store_path": "/nix/store/3i8fa331nr390ylkf1xka5ah0hvbvfbs-python3-3.11.11"
+        }
+      }
+    },
+    "xfsprogs@latest": {
+      "last_modified": "2025-02-09T21:53:45Z",
+      "resolved": "github:NixOS/nixpkgs/b2243f41e860ac85c0b446eadc6930359b294e79#xfsprogs",
+      "source": "devbox-search",
+      "version": "6.12.0",
+      "systems": {
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "bin",
+              "path": "/nix/store/d51bx9wwp1y0zgn4gxxs6yzis069lkrs-xfsprogs-6.12.0-bin",
+              "default": true
+            },
+            {
+              "name": "dev",
+              "path": "/nix/store/drs5g5y0ppz4v6r249s893p3j2a6bzb3-xfsprogs-6.12.0-dev"
+            },
+            {
+              "name": "doc",
+              "path": "/nix/store/nhiq4l1jcvwa9sizypnxb467spmxrfn4-xfsprogs-6.12.0-doc"
+            },
+            {
+              "name": "out",
+              "path": "/nix/store/9diihqjkmh4ahdvl9cp3dxipc1pxyzmy-xfsprogs-6.12.0"
+            }
+          ],
+          "store_path": "/nix/store/d51bx9wwp1y0zgn4gxxs6yzis069lkrs-xfsprogs-6.12.0-bin"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "bin",
+              "path": "/nix/store/q80hcbamr2blysjxibw3ygf6y0vq5yr6-xfsprogs-6.12.0-bin",
+              "default": true
+            },
+            {
+              "name": "out",
+              "path": "/nix/store/4xsqhji0bff54rj828y8yag11iv3nxvp-xfsprogs-6.12.0"
+            },
+            {
+              "name": "dev",
+              "path": "/nix/store/9w04b4r3r0vzigvgia4kz08h7097psil-xfsprogs-6.12.0-dev"
+            },
+            {
+              "name": "doc",
+              "path": "/nix/store/c7ypn6m02bmi15fqvqc6wsxhi3kh5qbj-xfsprogs-6.12.0-doc"
+            }
+          ],
+          "store_path": "/nix/store/q80hcbamr2blysjxibw3ygf6y0vq5yr6-xfsprogs-6.12.0-bin"
+        }
+      }
+    },
+    "yq@latest": {
+      "last_modified": "2025-01-19T08:16:51Z",
+      "resolved": "github:NixOS/nixpkgs/50165c4f7eb48ce82bd063e1fb8047a0f515f8ce#yq",
+      "source": "devbox-search",
+      "version": "3.4.3",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/v9yy5v1c0apl97p0605cg7vci4qc93b9-python3.12-yq-3.4.3",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/jf31iagabamjriagnhdh8v829bxp3x1l-python3.12-yq-3.4.3-dist"
+            }
+          ],
+          "store_path": "/nix/store/v9yy5v1c0apl97p0605cg7vci4qc93b9-python3.12-yq-3.4.3"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/rxi4x0wfz4rbb5lxyzz6jddpfxv3pkdn-python3.12-yq-3.4.3",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/j38zha42fr87gnm7jx2gib078d36827m-python3.12-yq-3.4.3-dist"
+            }
+          ],
+          "store_path": "/nix/store/rxi4x0wfz4rbb5lxyzz6jddpfxv3pkdn-python3.12-yq-3.4.3"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/cyjgcan8s893ws34czsym2py628nhx10-python3.12-yq-3.4.3",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/8gz13jiwl5lqzfmw4mlq5fy51wi58b9b-python3.12-yq-3.4.3-dist"
+            }
+          ],
+          "store_path": "/nix/store/cyjgcan8s893ws34czsym2py628nhx10-python3.12-yq-3.4.3"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/8iffgndwjvbbp4fd9mr0y6ncnxqwi5k8-python3.12-yq-3.4.3",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/xr1fscgpw10gzi2jnnxy85sk2sgqb507-python3.12-yq-3.4.3-dist"
+            }
+          ],
+          "store_path": "/nix/store/8iffgndwjvbbp4fd9mr0y6ncnxqwi5k8-python3.12-yq-3.4.3"
         }
       }
     }

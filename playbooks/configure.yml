@@ -151,6 +151,9 @@
               {% if _resolver_search != [] %}
               search {{ _resolver_search | join(' ') }}
               {% endif %}
+            owner: root
+            group: root
+            mode: "u=rw,g=r,o=r"
 
         - name: End play for RedHat hosts
           ansible.builtin.meta: end_host
