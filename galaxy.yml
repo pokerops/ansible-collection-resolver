@@ -1,7 +1,7 @@
 ---
 namespace: pokerops
 name: resolver
-version: 0.0.2
+version: 0.0.3
 readme: README.md
 authors:
   - Ted Cook <teodorocook@gmail.com>
@@ -17,4 +17,6 @@ repository: http://github.com/pokerops/ansible-collection-resolver
 documentation: http://github.com/pokerops/ansible-collection-resolver
 homepage: http://github.com/pokerops/ansible-collection-resolver
 issues: http://github.com/pokerops/ansible-collection-resolver/issues
-build_ignore: []
+build_ignore:
+  - .devbox
+  - .venv
