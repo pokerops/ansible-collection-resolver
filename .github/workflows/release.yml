@@ -1,5 +1,9 @@
 ---
 name: release
+
+env:
+  DEVBOX_VERSION: ${{ vars.DEVBOX_VERSION }}
+
 on:
   push:
     tags:
@@ -12,6 +16,9 @@ jobs:
     steps:
       - name: Check out the codebase.
         uses: actions/checkout@v4
+
+      - name: Generate devbox locale
+        run: sudo locale-gen C.UTF-8
 
       - name: Install devbox
         uses: jetify-com/devbox-install-action@v0.12.0
