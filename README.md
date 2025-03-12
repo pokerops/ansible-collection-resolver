@@ -1,7 +1,7 @@
 # Ansible Collection - pokerops.resolver
 
 [![Build Status](https://github.com/pokerops/ansible-collection-resolver/actions/workflows/libvirt.yml/badge.svg)](https://github.com/pokerops/ansible-collection-resolver/actions/workflows/libvirt.yml)
-[![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-pokerops.resolver.svg)](https://galaxy.ansible.com/ui/repo/published/pokerops/resolver/)
+[![Ansible Galaxy](https://img.shields.io/github/v/tag/pokerops/ansible-collection-resolver)](https://galaxy.ansible.com/ui/repo/published/pokerops/resolver/)
 
 An [ansible collection](https://galaxy.ansible.com/ui/repo/published/pokerops/resolver/) for managing Linux resolver configuration across multiple platforms.
 
