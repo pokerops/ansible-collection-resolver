@@ -59,7 +59,7 @@ ifeq (login,$(firstword $(MAKECMDGOALS)))
     $(eval $(subst $(space),,$(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))):;@:)
 endif
 
-dependency create prepare converge idempotence side-effect verify destroy cleanup reset list:
+dependency create prepare converge idempotence side-effect verify destroy cleanup reset list login:
 	ANSIBLE_COLLECTIONS_PATH=$(MAKEFILE_DIR) \
 	MOLECULE_KVM_DISTRO=${MOLECULE_KVM_DISTRO} \
 	MOLECULE_KVM_IMAGE=${MOLECULE_KVM_IMAGE} \
