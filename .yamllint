@@ -5,6 +5,8 @@ ignore: |
   roles/
   *.j2.yml
   .venv/
+  .ansible/
+  ansible_collections/
 
 rules:
   braces:

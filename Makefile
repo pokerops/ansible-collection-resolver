@@ -1,6 +1,8 @@
 .PHONY: ${MAKECMDGOALS}
 
-PKGMAN = $$(if [ "$(HOST_DISTRO)" = "fedora" ]; then echo "dnf" ; else echo "apt-get"; fi)
+MAKEFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
+MAKEFILE_DIR := $(dir $(MAKEFILE_PATH))
+
 MOLECULE_SCENARIO ?= install
 MOLECULE_KVM_DISTRO ?= jammy
 MOLECULE_KVM_IMAGE ?= https://cloud-images.ubuntu.com/${MOLECULE_KVM_DISTRO}/current/${MOLECULE_KVM_DISTRO}-server-cloudimg-amd64.img
@@ -15,20 +17,23 @@ COLLECTION_NAMESPACE = $$(yq '.namespace' < galaxy.yml -r)
 COLLECTION_NAME = $$(yq '.name' < galaxy.yml -r)
 COLLECTION_VERSION = $$(yq '.version' < galaxy.yml -r)
 
+LOGIN_ARGS ?=
+
 all: install version lint test
 
 test: lint
+	ANSIBLE_COLLECTIONS_PATH=$(MAKEFILE_DIR) \
 	MOLECULE_KVM_DISTRO=${MOLECULE_KVM_DISTRO} \
 	MOLECULE_KVM_IMAGE=${MOLECULE_KVM_IMAGE} \
-	poetry run molecule $@ -s ${MOLECULE_SCENARIO}
+	uv run molecule $@ -s ${MOLECULE_SCENARIO}
 
 install:
-	@sudo ${PKGMAN} install -y $$(if [[ "${HOST_DISTRO}" == "fedora" ]]; then echo libvirt-devel; else echo libvirt-dev; fi)
-	@poetry install --no-root
+	@uv sync
 
 lint: install
-	poetry run yamllint .
-	poetry run ansible-lint playbooks/
+	uv run yamllint . -c .yamllint
+	ANSIBLE_COLLECTIONS_PATH=$(MAKEFILE_DIR) \
+	uv run ansible-lint playbooks/
 
 requirements: install
 	@python --version
@@ -36,43 +41,42 @@ requirements: install
 		yq '.roles[].name' -r < ${ROLE_FILE} | xargs -rI {} rm -rf roles/{} ; \
 	fi
 	@if [ -f ${ROLE_FILE} ]; then \
-		poetry run ansible-galaxy role install \
+		uv run ansible-galaxy role install \
 			--force --no-deps \
 			--roles-path ${ROLE_DIR} \
 			--role-file ${ROLE_FILE} ; \
 	fi
-	@poetry run ansible-galaxy collection install \
+	ANSIBLE_COLLECTIONS_PATH=$(MAKEFILE_DIR) \
+	uv run ansible-galaxy collection install \
 		--force-with-deps .
 	@\find ./ -name "*.ymle*" -delete
 
 build: requirements
-	@poetry run ansible-galaxy collection build --force
-
-dependency create prepare converge idempotence side-effect verify destroy cleanup reset list:
-	MOLECULE_KVM_DISTRO=${MOLECULE_KVM_DISTRO} \
-	MOLECULE_KVM_IMAGE=${MOLECULE_KVM_IMAGE} \
-	poetry run molecule $@ -s ${MOLECULE_SCENARIO}
+	@uv run ansible-galaxy collection build --force
 
 ifeq (login,$(firstword $(MAKECMDGOALS)))
     LOGIN_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
     $(eval $(subst $(space),,$(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))):;@:)
 endif
 
-login:
-	poetry run molecule $@ -s ${MOLECULE_SCENARIO} ${LOGIN_ARGS}
+dependency create prepare converge idempotence side-effect verify destroy cleanup reset list:
+	ANSIBLE_COLLECTIONS_PATH=$(MAKEFILE_DIR) \
+	MOLECULE_KVM_DISTRO=${MOLECULE_KVM_DISTRO} \
+	MOLECULE_KVM_IMAGE=${MOLECULE_KVM_IMAGE} \
+	uv run molecule $@ -s ${MOLECULE_SCENARIO} ${LOGIN_ARGS}
 
 ignore:
-	@poetry run ansible-lint --generate-ignore
+	@uv run ansible-lint --generate-ignore
 
 clean: destroy reset
-	@poetry env remove $$(which python) >/dev/null 2>&1 || exit 0
+	@uv env remove $$(which python) >/dev/null 2>&1 || exit 0
 
 publish: build
-	poetry run ansible-galaxy collection publish --api-key ${GALAXY_API_KEY} \
+	uv run ansible-galaxy collection publish --api-key ${GALAXY_API_KEY} \
 		"${COLLECTION_NAMESPACE}-${COLLECTION_NAME}-${COLLECTION_VERSION}.tar.gz"
 
 version:
-	@poetry run molecule --version
+	@uv run molecule --version
 
 debug: install version
-	@poetry export --dev --without-hashes || exit 0
+	@uv export --dev --without-hashes || exit 0
